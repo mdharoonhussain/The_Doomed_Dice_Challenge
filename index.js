@@ -1,40 +1,40 @@
 // PART-A
 // 1.
-// Defining the faces of the dice
 const arr1 = [1, 2, 3, 4, 5, 6];
 const arr2 = [1, 2, 3, 4, 5, 6];
 
-// Calculating the total number of combinations
-const total = arr1.length * arr2.length;
+let total = 0;
+for(let i=0;i<arr1.length;i++) {
+    for(let j=0;j<arr2.length;j++) {
+        total++
+    }
+}
+console.log(total)
 
-// Output
-console.log("Total Combinations:", total);
 
 // 2. 
-// Defining the faces of the dice
 const new_arr1 = [1, 2, 3, 4, 5, 6];
 const new_arr2 = [1, 2, 3, 4, 5, 6];
 
-// Initialize a 6x6 matrix for distribution
 let stack = [];
-
-// Initialize the distribution matrix with 0s
-for (let i = 0; i < 6; i++) {
+var sum;
+for (let i = 0; i < new_arr1.length; i++) {
     stack[i] = [];
-  for (let j = 0; j < 6; j++) {
+  for (let j = 0; j < new_arr2.length; j++) {
     stack[i][j] = 0;
   }
 }
+// console.log(stack);
 
-// Calculate the distribution and fill the matrix
 for (let i = 0; i < new_arr1.length; i++) {
   for (let j = 0; j < new_arr2.length; j++) {
-    let sum = new_arr1[i] + new_arr2[j];
+     sum = new_arr1[i] + new_arr2[j];
     stack[i][j] = sum;
   }
 }
+// console.log(sum);
+// console.log(stack);
 
-// Display the distribution matrix
 let empty_arr = [];
 console.log("Distribution of Combinations:");
 for (let x = 0; x < stack.length; x++) {
@@ -45,25 +45,21 @@ for (let x = 0; x < stack.length; x++) {
   }
   console.log(string);
 }
-console.log(empty_arr);
+// console.log(empty_arr);
 
 // 3.
-// Defining the faces of the dice
 const dieA = [1, 2, 3, 4, 5, 6];
 const dieB = [1, 2, 3, 4, 5, 6];
 
-// Initialize a 6x6 matrix for distribution
 const st = [];
 
-// Initialize the distribution matrix with 0s
-for (let i = 0; i < 6; i++) {
+for (let i = 0; i < dieA.length; i++) {
   st[i] = [];
-  for (let j = 0; j < 6; j++) {
+  for (let j = 0; j < dieB.length; j++) {
     st[i][j] = 0;
   }
 }
 
-// Calculate the distribution and fill the matrix
 for (let i = 0; i < dieA.length; i++) {
   for (let j = 0; j < dieB.length; j++) {
     const sum = dieA[i] + dieB[j];
@@ -71,8 +67,10 @@ for (let i = 0; i < dieA.length; i++) {
   }
 }
 
-// Count occurrences of each sum
-const sumOccurrences = Array(12).fill(0);
+const sumOccurrences = [];
+for (let i = 0; i < 12; i++) {
+  sumOccurrences[i] = 0;
+}
 for (let i = 0; i < st.length; i++) {
   for (let j = 0; j < st[i].length; j++) {
     const sum = st[i][j];
@@ -80,9 +78,64 @@ for (let i = 0; i < st.length; i++) {
   }
 }
 
-// Calculate and display the probability for each sum
 console.log("Probability of Sums:");
 for (let sum = 2; sum <= 12; sum++) {
   const probability = sumOccurrences[sum - 2] / (dieA.length * dieB.length);
   console.log(`P(Sum = ${sum}) = ${probability.toFixed(3)}`);
 }
+
+
+// PART-B
+// 2. 
+function undoom_dice(Die_A, Die_B) {
+  const newDieA = transformDieA(Die_A);
+  const newDieB = Die_B;
+
+  return {
+    New_Die_A: newDieA,
+    New_Die_B: newDieB,
+  };
+}
+
+function countOccurrences(dieA, dieB, target) {
+  let count = 0;
+  for (let i = 0; i < dieA.length; i++) {
+    for (let j = 0; j < dieB.length; j++) {
+      if (dieA[i] + dieB[j] === target) {
+        count++;
+      }
+    }
+  }
+  return count;
+}
+
+function transformDieA(Die_A) {
+  const transformedDieAFaces = [];
+
+  for (let i = 0; i < Die_A.length; i++) {
+    const originalSpots = Die_A[i];
+
+    let transformedSpots;
+
+   if (originalSpots > 4) {
+  transformedSpots = 4;
+ } else {
+  transformedSpots = originalSpots;
+}
+
+    transformedDieAFaces.push(transformedSpots);
+  }
+
+  return transformedDieAFaces;
+}
+
+const dieAFaces = [1, 2, 3, 4, 5, 6];
+const dieBFaces = [1, 2, 3, 4, 5, 6];
+
+const transformedDice = undoom_dice(dieAFaces, dieBFaces);
+
+console.log("Original Dice A:", dieAFaces);
+console.log("Transformed Dice A:", transformedDice.New_Die_A);
+console.log("Original Dice B:", dieBFaces);
+console.log("Transformed Dice B:", transformedDice.New_Die_B);
+
