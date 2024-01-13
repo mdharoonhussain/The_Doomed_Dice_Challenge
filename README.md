@@ -41,3 +41,7 @@ Output:
 outputs New_Die_A = [?, ?, ?, ?, ?, ?],New_Die_B = [?, ?,
 ?, ?, ?, ?] where,
 ● No New_Die A[x] > 4
+
+## Screenshots to the Output
+![Screenshot](screenshots/pic1.png)
+![Screenshot](screenshots/pic2.png)
